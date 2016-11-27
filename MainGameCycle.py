@@ -1,8 +1,13 @@
 import pygame
 from Hero import Hero
 from platform import Platform
+from block import Block
 
-SIZE = (640,480)
+import Level
+
+SIZE = (800,600)
+monitor = [800,600]
+
 
 #Создаем окно
 window = pygame.display.set_mode(SIZE)
@@ -12,31 +17,33 @@ screen = pygame.Surface(SIZE)
 #Создание героя
 hero = Hero(55, 55)
 up = False
-level = [
-    '----------------',
-    '-              -',
-    '-        ---   -',
-    '-      -       -',
-    '-              -',
-    '-              -',
-    '-    ----      -',
-    '-              -',
-    '-              -',
-    '-        ---   -',
-    '-              -',
-    '----------------',]
+level = Level.Level.generationLevel(1,monitor)
 
 sprite_group = pygame.sprite.Group()
 sprite_group.add(hero)
 platforms = []
+kill_group = []
 x = 0
 y = 0
 for row in level:
     for col in row:
-        if col == '-':
+        if col == '*':
             pl = Platform(x, y)
             sprite_group.add(pl)
             platforms.append(pl)
+        if col == "|":
+            if y == 320 :
+                y += 10
+            else :
+                y += 5
+            pl = Block(x,y)
+            sprite_group.add(pl)
+            platforms.append(pl)
+            kill_group.append(pl)
+            if y == 330:
+                y -= 10
+            else:
+                y -=5
         x += 40
     y += 40
     x = 0
