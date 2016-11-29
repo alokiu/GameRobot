@@ -17,6 +17,7 @@ class Level:
                     lvl[i-2].insert(j,"|")
                     if (flag == 0):
                         lvl[i - 3].insert(j, "|")
+        print("level complite!!")
         return lvl
 
 

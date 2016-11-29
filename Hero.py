@@ -15,7 +15,7 @@ class Hero(Sprite):
         self.rect.x = x
         self.rect.y = y
         self.onGround = False
-    def update(self, up, platforms):
+    def update(self, up, space,  platforms, group):
         if up:
             if self.onGround:
                 self.ySpeed -= jumpPower
@@ -26,6 +26,7 @@ class Hero(Sprite):
         self.collide(self.xSpeed, 0, platforms)
         self.rect.y += self.ySpeed
         self.collide(0, self.ySpeed, platforms)
+        self.killCollision(group)
     def collide(self, xSpeed, ySpeed, platdorms):
         for object in platdorms:
             if collide_rect(self, object):
@@ -33,5 +34,12 @@ class Hero(Sprite):
                     self.rect.bottom  = object.rect.top
                     self.onGround = True
                     self.ySpeed = 0
+    def killCollision(self,group):
+        for object in group:
+                if self.rect.bottom == object.rect.top:
+                    print(1)
+
+
+
 
 
