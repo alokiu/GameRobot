@@ -15,7 +15,8 @@ class Hero(Sprite):
         self.rect.x = x
         self.rect.y = y
         self.onGround = False
-    def update(self, up, space,  platforms, group):
+        self.live = True
+    def update(self, up,  platforms, group):
         if up:
             if self.onGround:
                 self.ySpeed -= jumpPower
@@ -37,7 +38,7 @@ class Hero(Sprite):
     def killCollision(self,group):
         for object in group:
                 if self.rect.bottom == object.rect.top:
-                    print(1)
+                    self.live = False
 
 
 

@@ -1,10 +1,11 @@
 import pygame
-import Level
-from camera import Camera
-from Hero import Hero
-from platform import Platform
-from block import Block
 
+from moved.entity.Hero import Hero
+from moved.entity.block import Block
+from moved.entity.platform import Platform
+from moved.logic import Level
+from view.camera import Camera
+from view.menu import Menu
 
 SIZE = (800,600)
 monitor = [4000,600]
@@ -17,7 +18,7 @@ screen = pygame.Surface(SIZE)
 #Создание героя
 hero = Hero(55, 55)
 up = False
-level = Level.Level.generationLevel(1,monitor)
+level = Level.Level.generationLevel(1, monitor)
 
 sprite_group = pygame.sprite.Group()
 sprite_group.add(hero)
@@ -47,6 +48,11 @@ for row in level:
         x += 40
     y += 40
     x = 0
+#Создаем меню
+punkts = [(260,140,u'Game',(250,250,30),(250,30,250),0),
+          (265, 250, u'Quit',(250, 250, 30),(250, 30, 250),1)]
+game = Menu(punkts)
+game.mainMeny(screen, window)
 #Камера
 def camera_funk(camera, target_rect):
     l = -target_rect.x + SIZE[0]/2
@@ -67,6 +73,7 @@ camera = Camera(camera_funk, total_level_wigth, total_level_heigth)
 done = True
 timer = pygame.time.Clock()
 while done:
+    pygame.mouse.set_visible(False)
     #Блок управления событиями
     for e in pygame.event.get():
         if e.type == pygame.QUIT:
@@ -76,11 +83,14 @@ while done:
                 up = True
             if e.key == pygame.K_SPACE:
                 space = True
+            if e.key == pygame.K_ESCAPE:
+                game.mainMeny(screen, window)
         if e.type == pygame.KEYUP:
             if e.key == pygame.K_UP:
                 up = False
                 hero.xSpeed += 0.2
-
+    if hero.live == False:
+        done = False
 
     #Закрашивание поверхнсти
     screen.fill((10,120,10))

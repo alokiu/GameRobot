@@ -4,7 +4,7 @@ class Level:
     @staticmethod
     def generationLevel(level, monitor):
         lvl = []
-        for i in range(int(monitor[0]/40)):
+        for i in range(int(monitor[1]/40)):
             lvl.append([])
         for i in range(len(lvl)):
             for j in range(int(monitor[0]/40)):
