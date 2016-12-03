@@ -1,4 +1,5 @@
 import pygame,sys
+from moved.entity.Hero import Hero
 
 pygame.font.init()
 
@@ -11,7 +12,7 @@ class Menu:
                  poverhost.blit(font.render(i[2], 1, i[4]),(i[0], i[1]))
              else:
                  poverhost.blit(font.render(i[2], 1, i[3]), (i[0], i[1]))
-    def mainMeny(self, screen, windom):
+    def mainMeny(self, screen, windom, hero):
         pygame.mouse.set_visible(True)
         done = True
         font_menu = pygame.font.SysFont('Blackadder ITC',100,True,True)
@@ -35,9 +36,12 @@ class Menu:
                     if e.key == pygame.K_DOWN:
                         if punkt < len(self.punkts)-1:
                             punkt +=1
-                if e.type == pygame.MOUSEBUTTONDOWN and e.button == 1:
+                if (e.type == pygame.MOUSEBUTTONDOWN and e.button == 1) or\
+                        (e.type == pygame.KEYDOWN and e.key == pygame.K_RETURN):
                     if punkt == 0:
                         done = False
+                        hero.live = True
+                        hero.rect.x = 55
                     elif punkt == 1:
                         sys.exit()
 

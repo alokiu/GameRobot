@@ -6,6 +6,8 @@ from moved.entity.platform import Platform
 from moved.logic import Level
 from view.camera import Camera
 from view.menu import Menu
+from moved.logic.controlGame import Control
+
 
 SIZE = (800,600)
 monitor = [4000,600]
@@ -17,9 +19,9 @@ screen = pygame.Surface(SIZE)
 
 #Создание героя
 hero = Hero(55, 55)
-up = False
-level = Level.Level.generationLevel(1, monitor)
 
+#Создаем уровень
+level = Level.Level.generationLevel(1, monitor)
 sprite_group = pygame.sprite.Group()
 sprite_group.add(hero)
 platforms = []
@@ -49,10 +51,11 @@ for row in level:
     y += 40
     x = 0
 #Создаем меню
-punkts = [(260,140,u'Game',(250,250,30),(250,30,250),0),
-          (265, 250, u'Quit',(250, 250, 30),(250, 30, 250),1)]
+punkts = [(260,140,u'Game',(200,200,200),(0,250,0),0),
+          (265, 250, u'Quit',(200, 200, 200),(0, 250, 0),1)]
 game = Menu(punkts)
-game.mainMeny(screen, window)
+game.mainMeny(screen, window, hero)
+
 #Камера
 def camera_funk(camera, target_rect):
     l = -target_rect.x + SIZE[0]/2
@@ -72,40 +75,26 @@ camera = Camera(camera_funk, total_level_wigth, total_level_heigth)
 
 done = True
 timer = pygame.time.Clock()
+
 while done:
     pygame.mouse.set_visible(False)
     #Блок управления событиями
-    for e in pygame.event.get():
-        if e.type == pygame.QUIT:
-            done = False
-        if e.type == pygame.KEYDOWN:
-            if e.key == pygame.K_UP:
-                up = True
-            if e.key == pygame.K_SPACE:
-                space = True
-            if e.key == pygame.K_ESCAPE:
-                game.mainMeny(screen, window)
-        if e.type == pygame.KEYUP:
-            if e.key == pygame.K_UP:
-                up = False
-                hero.xSpeed += 0.2
-    if hero.live == False:
-        done = False
+    Control.contolGame(hero,game,window, screen)
 
     #Закрашивание поверхнсти
     screen.fill((10,120,10))
 
-
     #Отоброжение героя
-    hero.update(up, platforms, kill_group)
+    hero.update( platforms, kill_group)
     camera.update(hero)
     for e in sprite_group:
         screen.blit(e.image, camera.apply(e))
-    #sprite_group.draw(screen)
+
     #Отображаем рабочию поверхность в окне
     window.blit(screen,(0,0))
 
     #Обновляем окно
     pygame.display.flip()
 
-    timer.tick(60)
+    #Скорость игры
+    timer.tick(45)
