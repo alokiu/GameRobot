@@ -2,7 +2,7 @@ import random
 
 class Level:
     @staticmethod
-    def generationLevel(level, monitor):
+    def generationLevel(level, monitor, period):
         lvl = []
         for i in range(int(monitor[1]/40)):
             lvl.append([])
@@ -12,12 +12,11 @@ class Level:
                     lvl[i].append(" ")
                 else :
                     lvl[i].append("*")
-                if (j%6 == 0 and i == 11 ):
+                if (j%period == 0 and i == 11 ):
                     flag = random.randint(0,1)
                     lvl[i-2].insert(j,"|")
                     if (flag == 0):
                         lvl[i - 3].insert(j, "|")
-        print("level complite!!")
         return lvl
 
 

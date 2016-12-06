@@ -1,7 +1,6 @@
 from pygame.sprite import Sprite, collide_rect
 from pygame import Surface
 
-
 jumpPower = 10
 gravity = 0.4
 
@@ -31,7 +30,7 @@ class Hero(Sprite):
         self.rect.y += self.ySpeed
         self.collide(0, self.ySpeed, platforms)
         self.killCollision(group)
-        self.points += self.xSpeed * 0.1
+        self.points += self.xSpeed * 0.05
     def collide(self, xSpeed, ySpeed, platdorms):
         for object in platdorms:
             if collide_rect(self, object):

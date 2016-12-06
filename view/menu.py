@@ -1,5 +1,4 @@
 import pygame,sys
-from moved.entity.Hero import Hero
 
 pygame.font.init()
 
@@ -15,7 +14,7 @@ class Menu:
     def mainMeny(self, screen, windom, hero):
         pygame.mouse.set_visible(True)
         done = True
-        font_menu = pygame.font.SysFont('Blackadder ITC',100,True,True)
+        font_menu = pygame.font.SysFont('Tahoma',100,True,True)
         punkt = 0
         while done:
             screen.fill((0, 100, 200))
@@ -40,7 +39,6 @@ class Menu:
                         (e.type == pygame.KEYDOWN and e.key == pygame.K_RETURN):
                     if punkt == 0:
                         done = False
-                        hero.live = True
                         hero.rect.x = 55
                     elif punkt == 1:
                         sys.exit()
