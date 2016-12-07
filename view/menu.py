@@ -1,10 +1,13 @@
 import pygame,sys
+from view.help import Help
+from pygame import image
 
 pygame.font.init()
 
 class Menu:
     def __init__(self, punkts = [120, 140, u'Punkts', (250,250,30),(250,30,250)]):
         self.punkts = punkts
+        self.image = image.load('image\menu2.jpg')
     def render(self, poverhost, font, num_punkt):
          for i in self.punkts:
              if num_punkt == i[5]:
@@ -17,7 +20,7 @@ class Menu:
         font_menu = pygame.font.SysFont('Tahoma',100,True,True)
         punkt = 0
         while done:
-            screen.fill((0, 100, 200))
+            screen.blit(self.image,(0,0))
             mouse = pygame.mouse.get_pos()
             for i in self.punkts:
                 if mouse[0]>i[0] and mouse[0]<i[0]+250 and mouse[1]>i[1] and mouse[1]<i[1]+200:
@@ -41,6 +44,8 @@ class Menu:
                         done = False
                         hero.rect.x = 55
                     elif punkt == 1:
+                        Help.helpToGame(screen, windom)
+                    elif punkt == 2:
                         sys.exit()
 
             windom.blit(screen, (0,0))

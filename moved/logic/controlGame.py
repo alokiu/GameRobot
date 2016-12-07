@@ -15,7 +15,7 @@ class Control():
                 if e.key == pygame.K_ESCAPE:
                     game.mainMeny(screen, window, hero)
                 if e.key == pygame.K_p:
-                    Pause.pauseOfGame(screen, window, game, hero)
+                    Pause.pauseOfGame(screen, window)
 
 
             if e.type == pygame.KEYUP:
