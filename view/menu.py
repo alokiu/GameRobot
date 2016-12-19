@@ -7,7 +7,7 @@ pygame.font.init()
 class Menu:
     def __init__(self, punkts = [120, 140, u'Punkts', (250,250,30),(250,30,250)]):
         self.punkts = punkts
-        self.image = image.load('image\menu2.jpg')
+        self.image = image.load('image/menu2.jpg')
     def render(self, poverhost, font, num_punkt):
          for i in self.punkts:
              if num_punkt == i[5]:

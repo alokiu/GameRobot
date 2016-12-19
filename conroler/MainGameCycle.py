@@ -2,13 +2,14 @@ import pygame
 
 from conroler.createFileLevel import NewFile
 from moved.entity.Hero import Hero
+from moved.entity.camera import Camera
 from moved.logic.controlGame import Control
 from moved.logic.functionOfCamera import camera_funk
 from moved.logic.renderingLevel import renderLevel
-from view.camera import Camera
 from view.menu import Menu
 from view.nexrLevel import NextLevel
 from view.workWithFile import File
+
 
 SIZE = (800,600)
 alllevel = ['level1.bat', 'level2.bat', 'level3.bat', 'level4.bat', 'level5.bat',
@@ -62,67 +63,19 @@ while done:
     screen.blit(font_point.render(u'Point: ' + str(int(hero.points)),1,(250,00,0)),(600,25))
     screen.blit(font_point.render(str((alllevel[index].split('.')[0])), 1, (250, 0, 0)), (30, 25))
     #Переход на новый уровень
-    if  hero.live == False:
+
+    if (len(level[0])-10)*40 <= hero.rect.x :
+        index += 1
+        level = File.readOfFileByte('fileLevel/' + str((alllevel[index])))
+        sprite_group, platforms, kill_group = renderLevel(level, hero)
+        hero.rect.x = 55
+        hero.xSpeed -= 0.1
+        NextLevel.informationAboutNextLevel(screen, window, hero)
+    elif hero.live == False:
         level = File.readOfFileByte('fileLevel\level1.bat')
-        sprite_group, platforms, kill_group = renderLevel(level,hero)
+        sprite_group, platforms, kill_group = renderLevel(level, hero)
         hero.live = True
         index = 0
-    elif (hero.rect.x >= 3900 and alllevel[index] == 'level1.bat'):
-        level = File.readOfFileByte('fileLevel\level2.bat')
-        sprite_group, platforms, kill_group = renderLevel(level,hero)
-        hero.rect.x = 55
-        index += 1
-        hero.xSpeed -=0.2
-        NextLevel.informationAboutNextLevel(screen, window, hero)
-    elif hero.rect.x >= 4400 and alllevel[index] == 'level2.bat':
-        level = File.readOfFileByte('fileLevel\level3.bat')
-        sprite_group, platforms, kill_group = renderLevel(level, hero)
-        hero.rect.x = 55
-        index += 1
-        hero.xSpeed -= 0.2
-        NextLevel.informationAboutNextLevel(screen, window, hero)
-    elif hero.rect.x >= 4900 and alllevel[index] == 'level3.bat':
-        level = File.readOfFileByte('fileLevel\level4.bat')
-        sprite_group, platforms, kill_group = renderLevel(level, hero)
-        hero.rect.x = 55
-        index += 1
-        hero.xSpeed -=0.2
-        NextLevel.informationAboutNextLevel(screen, window, hero)
-    elif hero.rect.x >= 5400 and alllevel[index] == 'level4.bat':
-        level = File.readOfFileByte('fileLevel\level5.bat')
-        sprite_group, platforms, kill_group = renderLevel(level, hero)
-        hero.rect.x = 55
-        index += 1
-        NextLevel.informationAboutNextLevel(screen, window)
-    elif hero.rect.x >= 5900 and alllevel[index] == 'level5.bat':
-        level = File.readOfFileByte('fileLevel\level6.bat')
-        sprite_group, platforms, kill_group = renderLevel(level, hero)
-        hero.rect.x = 55
-        index += 1
-        NextLevel.informationAboutNextLevel(screen, window, hero)
-    elif hero.rect.x >= 6400 and alllevel[index] == 'level6.bat':
-        level = File.readOfFileByte('fileLevel\level7.bat')
-        sprite_group, platforms, kill_group = renderLevel(level, hero)
-        hero.rect.x = 55
-        index += 1
-        NextLevel.informationAboutNextLevel(screen, window, hero)
-    elif hero.rect.x >= 6900 and alllevel[index] == 'level7.bat':
-        level = File.readOfFileByte('fileLevel\level8.bat')
-        sprite_group, platforms, kill_group = renderLevel(level, hero)
-        hero.rect.x = 55
-        index += 1
-        NextLevel.informationAboutNextLevel(screen, window)
-    elif hero.rect.x >= 7400 and alllevel[index] == 'level8.bat':
-        level = File.readOfFileByte('fileLevel\level9.bat')
-        sprite_group, platforms, kill_group = renderLevel(level, hero)
-        hero.rect.x = 55
-        index += 1
-        NextLevel.informationAboutNextLevel(screen, window, hero)
-    elif hero.rect.x >= 7900 and alllevel[index] == 'level9.bat':
-        level = File.readOfFileByte('fileLevel\level10.bat')
-        sprite_group, platforms, kill_group = renderLevel(level, hero)
-        hero.rect.x = 55
-        index += 1
     #Отоброжение героя
     hero.update( platforms, kill_group)
     camera.update(hero)

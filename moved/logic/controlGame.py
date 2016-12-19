@@ -1,5 +1,4 @@
 import pygame, sys
-from moved.entity.Hero import Hero
 from view.pause import Pause
 
 class Control():
